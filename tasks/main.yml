@@ -8,20 +8,14 @@
       .if ${.CURDIR} == "/usr/ports/lang/php70"
       OPTIONS_SET+=DTRACE
       .endif
-  tags:
-    - php70 
 
     
 - name: Install PHP 7.0 with DTrace
   portinstall: name=lang/php70 state=present
-  tags:
-    - php70
 
 
 - name: Lock php70 package
   command: pkg lock php70
-  tags:
-    - php70
 
 
 - name: Install PHP Extensions
@@ -42,8 +36,6 @@
     - php70-hash
     - php70-tokenizer
     - php70-openssl
-  tags:
-    - php70
 
 
 - name: Copy php.ini-development to /usr/local/etc/php.ini
@@ -52,8 +44,6 @@
     dest: /usr/local/etc/php.ini
     mode: 0644
     remote_src: True
-  tags:
-    - php70
 
 
 - name: Set timezone to Asia/Tokyo
@@ -62,5 +52,3 @@
     section: Date
     option: date.timezone
     value: "Asia/Tokyo"
-  tags:
-    - php70
