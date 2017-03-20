@@ -1,0 +1,47 @@
+---
+- name: Set build options
+  blockinfile:
+    dest: "{{ system_make_conf_path }}"
+    state: present
+    marker: '# {mark} PHP70 BUILD OPTIONS ANSIBLE MANAGED BLOCK'
+    block: |
+      .if ${.CURDIR} == "/usr/ports/lang/php70"
+      OPTIONS_SET+=DTRACE
+      .endif
+
+
+- name: Install PHP 7.0 with DTrace
+  portinstall: name=lang/php70 state=present
+
+
+- name: Lock php70 package
+  command: pkg lock php70
+
+
+- name: Install PHP Extensions
+  pkgng: name={{ item }} state=present
+  with_items:
+    - php70-session
+    - php70-mbstring
+    - php70-mcrypt
+    - php70-pdo
+    - php70-opcache
+    - php70-zip
+    - php70-xml
+    - php70-json
+    - php70-curl
+    - php70-pdo
+    - php70-pdo_mysql
+    - php70-ctype
+    - php70-hash
+    - php70-tokenizer
+    - php70-openssl
+
+
+- name: Copy php.ini-development to /usr/local/etc/php.ini
+  copy:
+    src: /usr/local/etc/php.ini-development
+    dest: "{{ php_ini_path }}"
+    mode: 0644
+    remote_src: True
+

@@ -1,0 +1,36 @@
+---
+- name: Remi yum repository 
+  get_url:
+    url: http://rpms.famillecollet.com/enterprise/remi.repo
+    dest: /etc/yum.repos.d
+
+
+- name: Remi key installed
+  rpm_key:
+    key: "https://rpms.remirepo.net/RPM-GPG-KEY-remi"
+
+
+- name: Install PHP and Extensions
+#  notify:
+#    - restart apache
+  yum:
+    name: "{{ item.name }}"
+    update_cache: yes
+    enablerepo: "{{ item.repo }}"
+    state: present
+  with_items:
+    - { name: php, repo: remi-php70 }
+    - { name: php-cli, repo: remi-php70 }
+    - { name: php-common, repo: remi-php70 }
+    - { name: php-mbstring, repo: remi-php70 }
+    - { name: php-pdo, repo: remi-php70 }
+    - { name: php-mysql, repo: remi-php70 }
+    - { name: php-pecl-xdebug, repo: remi-php70 }
+    - { name: php-pecl-memcache, repo: remi-php70 }
+    - { name: php-pecl-apcu, repo: remi-php70 }
+    - { name: php-process, repo: remi-php70 }
+    - { name: php-xml, repo: remi-php70 }
+
+- name: Install php composer
+  script: install-composer.sh
+

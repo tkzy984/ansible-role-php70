@@ -1,2 +1,2 @@
 ---
-system_make_conf_path: /etc/make.conf
+timezone: Asia/Tokyo
